@@ -6,7 +6,8 @@ import {
   signInWithPopup,
   GoogleAuthProvider,
   signOut,
-  onAuthStateChanged
+  onAuthStateChanged,
+  sendPasswordResetEmail
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 // ✅ Firebase Config
@@ -85,6 +86,24 @@ window.loginUser = function () {
     })
     .catch(err => showToast(friendlyError(err.code), 'error'))
     .finally(() => { btn.textContent = 'Log In'; btn.disabled = false; });
+};
+
+// 🔑 FORGOT PASSWORD
+window.forgotPassword = function () {
+  const email = document.getElementById('login-email').value.trim();
+  if (!email) {
+    showToast('Please enter your email address first.', 'error');
+    return;
+  }
+  sendPasswordResetEmail(auth, email)
+    .then(() => showToast('Password reset email sent! Check your inbox. 📧'))
+    .catch(error => {
+      if (error.code === 'auth/user-not-found') {
+        showToast('No account found with that email.', 'error');
+      } else {
+        showToast(error.message, 'error');
+      }
+    });
 };
 
 // 🆕 SIGNUP
