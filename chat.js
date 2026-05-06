@@ -5,27 +5,43 @@ const OPENROUTER_API_KEY = "YOUR_OPENROUTER_API_KEY"; // 🔑 Replace this
 
 let chatHistory = [];
 
-window.sendMessage = async function () {
-  const input     = document.getElementById("userInput");
-  const chatBox   = document.getElementById("chatBox");
-  const model     = document.getElementById("modelSelect").value;
-  const sendBtn   = document.getElementById("sendBtn");
-  const userText  = input.value.trim();
+async function sendMessage() {
+  const input    = document.getElementById("userInput");
+  const model    = document.getElementById("modelSelect").value;
+  const chatBox  = document.getElementById("chatBox");
+  const sendBtn  = document.getElementById("sendBtn");
+  const userText = input.value.trim();
 
   if (!userText) return;
 
-  // Append user message
-  appendMessage("user", userText);
+  // Clear welcome screen
+  chatBox.querySelector(".chat-welcome")?.remove();
+
+  // Show user message
+  chatBox.innerHTML += `
+    <div class="chat-msg user">
+      <span class="chat-avatar">👤</span>
+      <div class="chat-bubble-wrap">
+        <div class="chat-label">You</div>
+        <div class="chat-bubble">${userText}</div>
+      </div>
+    </div>`;
+
   chatHistory.push({ role: "user", content: userText });
   input.value = "";
-  sendBtn.disabled = true;
+  sendBtn.disabled    = true;
   sendBtn.textContent = "Thinking...";
+  chatBox.scrollTop   = chatBox.scrollHeight;
 
   // Typing indicator
-  const typingEl = document.createElement("div");
-  typingEl.className = "chat-msg assistant typing";
-  typingEl.innerHTML = `<span class="chat-avatar">🤖</span><div class="chat-bubble"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>`;
-  chatBox.appendChild(typingEl);
+  const typingId = "typing-" + Date.now();
+  chatBox.innerHTML += `
+    <div class="chat-msg assistant typing" id="${typingId}">
+      <span class="chat-avatar">🤖</span>
+      <div class="chat-bubble">
+        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+      </div>
+    </div>`;
   chatBox.scrollTop = chatBox.scrollHeight;
 
   try {
@@ -39,42 +55,44 @@ window.sendMessage = async function () {
       },
       body: JSON.stringify({
         model: model,
-        messages: chatHistory,
-        max_tokens: 1024,
-        temperature: 0.7
+        messages: chatHistory
       })
     });
 
-    if (!res.ok) {
-      const err = await res.json();
-      throw new Error(err.error?.message || "API error " + res.status);
-    }
-
-    const data    = await res.json();
-    const reply   = data.choices[0].message.content;
+    const data  = await res.json();
+    const reply = data.choices[0].message.content;
     chatHistory.push({ role: "assistant", content: reply });
 
-    typingEl.remove();
-    appendMessage("assistant", reply, getModelLabel(model));
+    // Remove typing indicator & show reply
+    document.getElementById(typingId)?.remove();
+    chatBox.innerHTML += `
+      <div class="chat-msg assistant">
+        <span class="chat-avatar">🤖</span>
+        <div class="chat-bubble-wrap">
+          <div class="chat-label">${getModelLabel(model)}</div>
+          <div class="chat-bubble">${reply.replace(/\n/g, "<br>")}</div>
+        </div>
+      </div>`;
 
-  } catch (err) {
-    typingEl.remove();
-    appendMessage("assistant", "⚠️ Error: " + err.message, "Error");
-    console.error(err);
-  } finally {
-    sendBtn.disabled    = false;
-    sendBtn.textContent = "Send";
-    chatBox.scrollTop   = chatBox.scrollHeight;
+  } catch (error) {
+    document.getElementById(typingId)?.remove();
+    chatBox.innerHTML += `<p style="color:#e74c3c;padding:8px 16px;">⚠️ Error: ${error.message}</p>`;
   }
-};
 
-// Send on Enter key
+  sendBtn.disabled    = false;
+  sendBtn.textContent = "Send";
+  chatBox.scrollTop   = chatBox.scrollHeight;
+}
+
+// Expose globally for onclick
+window.sendMessage = sendMessage;
+
+// Enter key support & Clear button
 document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("userInput")?.addEventListener("keydown", e => {
-    if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); window.sendMessage(); }
+    if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); sendMessage(); }
   });
 
-  // Clear chat button
   document.getElementById("clearChat")?.addEventListener("click", () => {
     chatHistory = [];
     document.getElementById("chatBox").innerHTML = `
@@ -85,41 +103,12 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-function appendMessage(role, text, label) {
-  const chatBox = document.getElementById("chatBox");
-  // Remove welcome screen on first message
-  chatBox.querySelector(".chat-welcome")?.remove();
-
-  const el = document.createElement("div");
-  el.className = `chat-msg ${role}`;
-
-  const avatar = role === "user" ? "👤" : "🤖";
-  const name   = role === "user" ? "You" : (label || "Assistant");
-
-  // Convert markdown-like formatting
-  const formatted = text
-    .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
-    .replace(/\*(.*?)\*/g, "<em>$1</em>")
-    .replace(/`(.*?)`/g, "<code>$1</code>")
-    .replace(/\n/g, "<br>");
-
-  el.innerHTML = `
-    <span class="chat-avatar">${avatar}</span>
-    <div class="chat-bubble-wrap">
-      <div class="chat-label">${name}</div>
-      <div class="chat-bubble">${formatted}</div>
-    </div>`;
-
-  chatBox.appendChild(el);
-  chatBox.scrollTop = chatBox.scrollHeight;
-}
-
 function getModelLabel(model) {
   const labels = {
-    "openai/gpt-4o-mini"           : "ChatGPT",
-    "anthropic/claude-3-haiku"     : "Claude",
-    "google/gemini-pro"            : "Gemini",
-    "qwen/qwen-2-7b-instruct"      : "Qwen",
+    "openai/gpt-4o-mini"            : "ChatGPT",
+    "anthropic/claude-3-haiku"      : "Claude",
+    "google/gemini-pro"             : "Gemini",
+    "qwen/qwen-2-7b-instruct"       : "Qwen",
     "meta-llama/llama-3-8b-instruct": "Llama 3"
   };
   return labels[model] || "AI";
