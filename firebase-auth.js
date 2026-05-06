@@ -72,7 +72,7 @@ onAuthStateChanged(auth, user => {
 
 // 🔐 LOGIN
 window.loginUser = function () {
-  const email    = document.getElementById('login-email').value.trim();
+  const email    = document.getElementById('loginEmail').value.trim();
   const password = document.getElementById('login-password').value;
   const btn      = document.getElementById('login-btn');
 
@@ -90,7 +90,7 @@ window.loginUser = function () {
 
 // 🔑 FORGOT PASSWORD
 window.forgotPassword = function () {
-  const email = document.getElementById('login-email').value.trim();
+  const email = document.getElementById('loginEmail').value.trim();
   if (!email) {
     showToast('Please enter your email address first.', 'error');
     return;
