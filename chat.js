@@ -59,7 +59,14 @@ async function sendMessage() {
       })
     });
 
-    const data  = await res.json();
+    const data = await res.json();
+    console.log("FULL RESPONSE:", data); // ✅ DEBUG
+
+    // ✅ Validate response before accessing choices
+    if (!data.choices || !data.choices.length) {
+      throw new Error(data.error?.message || "API returned no choices");
+    }
+
     const reply = data.choices[0].message.content;
     chatHistory.push({ role: "assistant", content: reply });
 
