@@ -1,70 +1,67 @@
 // ===== AI Chat - ALL IN ONE =====
 
+const OPENROUTER_API_KEY = "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";
+
 async function sendMessage() {
-  const input    = document.getElementById("userInput").value;
+  const input    = document.getElementById("userInput");
   const model    = document.getElementById("modelSelect").value;
   const chatBox  = document.getElementById("chatBox");
   const sendBtn  = document.getElementById("sendBtn");
+  const message  = input.value.trim();
 
-  if (!input) return;
+  if (!message) return;
 
   // Clear welcome screen
   chatBox.querySelector(".chat-welcome")?.remove();
 
-  chatBox.innerHTML += `
-    <div class="chat-msg user">
-      <span class="chat-avatar">👤</span>
-      <div class="chat-bubble-wrap">
-        <div class="chat-label">You</div>
-        <div class="chat-bubble">${input}</div>
-      </div>
-    </div>`;
-
-  document.getElementById("userInput").value = "";
+  addMessage(message, "user");
+  input.value = "";
   sendBtn.disabled    = true;
   sendBtn.textContent = "Thinking...";
   chatBox.scrollTop   = chatBox.scrollHeight;
 
   try {
-    const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+    const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
       headers: {
-        "Authorization": "Bearer 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",
+        "Authorization": `Bearer ${OPENROUTER_API_KEY}`,
         "Content-Type": "application/json",
         "HTTP-Referer": window.location.href,
         "X-Title": "ALL IN ONE"
       },
       body: JSON.stringify({
         model: model,
-        messages: [{ role: "user", content: input }]
+        messages: [{ role: "user", content: message }]
       })
     });
 
-    const data = await res.json();
+    const data = await response.json();
     console.log("API RESPONSE:", data);
 
-    if (!data.choices || !data.choices.length) {
-      throw new Error(data.error?.message || "Something went wrong");
-    }
-
-    const reply = data.choices[0].message.content;
-
-    chatBox.innerHTML += `
-      <div class="chat-msg assistant">
-        <span class="chat-avatar">🤖</span>
-        <div class="chat-bubble-wrap">
-          <div class="chat-label">AI</div>
-          <div class="chat-bubble">${reply.replace(/\n/g, "<br>")}</div>
-        </div>
-      </div>`;
+    const reply = data.choices?.[0]?.message?.content || "No response";
+    addMessage(reply, "bot");
 
   } catch (error) {
-    chatBox.innerHTML += `<p style="color:red; padding:8px 16px;">Error: ${error.message}</p>`;
+    console.error(error);
+    addMessage("Error: " + error.message, "bot");
   }
 
   sendBtn.disabled    = false;
   sendBtn.textContent = "Send";
   chatBox.scrollTop   = chatBox.scrollHeight;
+}
+
+function addMessage(text, sender) {
+  const chatBox = document.getElementById("chatBox");
+  const isUser  = sender === "user";
+  chatBox.innerHTML += `
+    <div class="chat-msg ${isUser ? "user" : "assistant"}">
+      <span class="chat-avatar">${isUser ? "👤" : "🤖"}</span>
+      <div class="chat-bubble-wrap">
+        <div class="chat-label">${isUser ? "You" : "AI"}</div>
+        <div class="chat-bubble">${text.replace(/\n/g, "<br>")}</div>
+      </div>
+    </div>`;
 }
 
 // Expose globally
