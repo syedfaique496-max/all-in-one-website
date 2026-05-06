@@ -36,9 +36,19 @@ async function sendMessage() {
     });
 
     const data = await response.json();
-    console.log("API RESPONSE:", data);
+    console.log("FULL API RESPONSE:", data);
 
-    const reply = data.choices?.[0]?.message?.content || "No response";
+    let reply = "No response";
+    if (
+      data &&
+      data.choices &&
+      data.choices.length > 0 &&
+      data.choices[0].message &&
+      data.choices[0].message.content
+    ) {
+      reply = data.choices[0].message.content;
+    }
+
     addMessage(reply, "bot");
 
   } catch (error) {
