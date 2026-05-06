@@ -1,18 +1,15 @@
-// ===== Firebase Auth - ALL IN ONE =====
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-analytics.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
 import {
   getAuth,
-  createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
   signInWithPopup,
   GoogleAuthProvider,
   signOut,
-  onAuthStateChanged,
-  updateProfile
-} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
 
-// ── Firebase config ───────────────────────────────────────────────────────────
+// ✅ Firebase Config
 const firebaseConfig = {
   apiKey: "AIzaSyAm-2XDg3fuXXhrsIv0XI9W1j8Ebior0n4",
   authDomain: "all-in-one-website-25a28.firebaseapp.com",
@@ -22,24 +19,21 @@ const firebaseConfig = {
   appId: "1:175636009900:web:609f7897c73c817286e009",
   measurementId: "G-L04Q513KJY"
 };
-// ─────────────────────────────────────────────────────────────────────────────
 
-const app       = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-const auth      = getAuth(app);
-const provider  = new GoogleAuthProvider();
+// ✅ Initialize Firebase
+const app      = initializeApp(firebaseConfig);
+const auth     = getAuth(app);
+const provider = new GoogleAuthProvider();
 
-// ===== UI helpers =============================================================
-
+// ===== Toast notification =====
 function showToast(msg, type = 'success') {
-  // Remove existing toast
   document.querySelector('.auth-toast')?.remove();
   const toast = document.createElement('div');
   toast.className = 'auth-toast';
   toast.textContent = msg;
   toast.style.cssText = `
     position:fixed; bottom:32px; left:50%; transform:translateX(-50%);
-    background:${type === 'success' ? 'var(--accent-2)' : '#e74c3c'};
+    background:${type === 'success' ? '#00d4aa' : '#e74c3c'};
     color:#fff; padding:14px 28px; border-radius:40px;
     font-size:0.9rem; font-weight:600; z-index:9999;
     box-shadow:0 8px 32px rgba(0,0,0,0.3);
@@ -49,27 +43,21 @@ function showToast(msg, type = 'success') {
   setTimeout(() => toast.remove(), 3500);
 }
 
-function setLoading(btn, loading) {
-  btn.disabled   = loading;
-  btn.textContent = loading ? 'Please wait...' : btn.dataset.label;
-}
-
 function closeAllModals() {
   document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('active'));
 }
 
-function updateNavUser(user) {
+// ===== Auth state — update navbar =====
+onAuthStateChanged(auth, user => {
   const actions = document.querySelector('.nav-actions');
   if (!actions) return;
-
   if (user) {
     actions.innerHTML = `
       <div class="nav-user-pill">
         <span class="nav-avatar">${user.displayName ? user.displayName[0].toUpperCase() : '👤'}</span>
         <span class="nav-username">${user.displayName || user.email.split('@')[0]}</span>
-        <button class="btn-outline" id="logoutBtn">Log Out</button>
+        <button class="btn-outline" onclick="logoutUser()">Log Out</button>
       </div>`;
-    document.getElementById('logoutBtn').addEventListener('click', handleLogout);
   } else {
     actions.innerHTML = `
       <div class="nav-search">
@@ -79,78 +67,66 @@ function updateNavUser(user) {
       <button class="btn-outline" data-modal="loginModal">Log In</button>
       <button class="btn-primary" data-modal="signupModal">Sign Up Free</button>`;
   }
-}
-
-// ===== Auth state observer ====================================================
-onAuthStateChanged(auth, user => {
-  updateNavUser(user);
 });
 
-// ===== SIGN UP ================================================================
-export async function handleSignup(e) {
-  e.preventDefault();
-  const name  = document.getElementById('signup-name').value.trim();
-  const email = document.getElementById('signup-email').value.trim();
-  const pass  = document.getElementById('signup-password').value;
-  const btn   = document.getElementById('signup-btn');
+// 🔐 LOGIN
+window.loginUser = function () {
+  const email    = document.getElementById('login-email').value.trim();
+  const password = document.getElementById('login-password').value;
+  const btn      = document.getElementById('login-btn');
 
-  if (!name || !email || !pass) { showToast('Please fill in all fields.', 'error'); return; }
-  if (pass.length < 6) { showToast('Password must be at least 6 characters.', 'error'); return; }
+  if (!email || !password) { showToast('Please enter email and password.', 'error'); return; }
+  btn.textContent = 'Logging in...'; btn.disabled = true;
 
-  setLoading(btn, true);
-  try {
-    const cred = await createUserWithEmailAndPassword(auth, email, pass);
-    await updateProfile(cred.user, { displayName: name });
-    showToast(`Welcome, ${name}! 🎉`);
-    closeAllModals();
-  } catch (err) {
-    showToast(friendlyError(err.code), 'error');
-  } finally {
-    setLoading(btn, false);
-  }
-}
+  signInWithEmailAndPassword(auth, email, password)
+    .then(cred => {
+      showToast(`Welcome back, ${cred.user.displayName || cred.user.email}! 👋`);
+      closeAllModals();
+    })
+    .catch(err => showToast(friendlyError(err.code), 'error'))
+    .finally(() => { btn.textContent = 'Log In'; btn.disabled = false; });
+};
 
-// ===== LOG IN =================================================================
-export async function handleLogin(e) {
-  e.preventDefault();
-  const email = document.getElementById('login-email').value.trim();
-  const pass  = document.getElementById('login-password').value;
-  const btn   = document.getElementById('login-btn');
+// 🆕 SIGNUP
+window.signupUser = function () {
+  const name     = document.getElementById('signup-name').value.trim();
+  const email    = document.getElementById('signup-email').value.trim();
+  const password = document.getElementById('signup-password').value;
+  const btn      = document.getElementById('signup-btn');
 
-  if (!email || !pass) { showToast('Please enter email and password.', 'error'); return; }
+  if (!name || !email || !password) { showToast('Please fill in all fields.', 'error'); return; }
+  if (password.length < 6) { showToast('Password must be at least 6 characters.', 'error'); return; }
+  btn.textContent = 'Creating account...'; btn.disabled = true;
 
-  setLoading(btn, true);
-  try {
-    const cred = await signInWithEmailAndPassword(auth, email, pass);
-    showToast(`Welcome back, ${cred.user.displayName || cred.user.email}! 👋`);
-    closeAllModals();
-  } catch (err) {
-    showToast(friendlyError(err.code), 'error');
-  } finally {
-    setLoading(btn, false);
-  }
-}
+  createUserWithEmailAndPassword(auth, email, password)
+    .then(cred => {
+      return cred.user.updateProfile({ displayName: name }).then(() => {
+        showToast(`Welcome, ${name}! 🎉`);
+        closeAllModals();
+      });
+    })
+    .catch(err => showToast(friendlyError(err.code), 'error'))
+    .finally(() => { btn.textContent = 'Create Account'; btn.disabled = false; });
+};
 
-// ===== GOOGLE SIGN-IN =========================================================
-export async function handleGoogleSignIn() {
-  try {
-    const result = await signInWithPopup(auth, provider);
-    showToast(`Welcome, ${result.user.displayName}! 🎉`);
-    closeAllModals();
-  } catch (err) {
-    if (err.code !== 'auth/popup-closed-by-user') {
-      showToast(friendlyError(err.code), 'error');
-    }
-  }
-}
+// 🌐 GOOGLE SIGN-IN
+window.googleSignIn = function () {
+  signInWithPopup(auth, provider)
+    .then(result => {
+      showToast(`Welcome, ${result.user.displayName}! 🎉`);
+      closeAllModals();
+    })
+    .catch(err => {
+      if (err.code !== 'auth/popup-closed-by-user') showToast(friendlyError(err.code), 'error');
+    });
+};
 
-// ===== LOG OUT ================================================================
-export async function handleLogout() {
-  await signOut(auth);
-  showToast('You have been logged out.');
-}
+// 🚪 LOGOUT
+window.logoutUser = function () {
+  signOut(auth).then(() => showToast('You have been logged out.'));
+};
 
-// ===== Error messages =========================================================
+// ===== Friendly error messages =====
 function friendlyError(code) {
   const map = {
     'auth/email-already-in-use'  : 'That email is already registered.',
@@ -158,9 +134,9 @@ function friendlyError(code) {
     'auth/weak-password'         : 'Password must be at least 6 characters.',
     'auth/user-not-found'        : 'No account found with that email.',
     'auth/wrong-password'        : 'Incorrect password. Please try again.',
+    'auth/invalid-credential'    : 'Incorrect email or password.',
     'auth/too-many-requests'     : 'Too many attempts. Please try again later.',
     'auth/network-request-failed': 'Network error. Check your connection.',
-    'auth/configuration-not-found': '⚠️ Firebase not configured yet. Add your config in firebase-auth.js.',
   };
   return map[code] || 'Something went wrong. Please try again.';
 }
