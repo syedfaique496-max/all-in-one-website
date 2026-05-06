@@ -153,10 +153,18 @@
       <div class="upload-dropzone" id="dropzone">
         <div class="upload-icon">📄</div>
         <h3>Drag & Drop your files here</h3>
+        <p class="dropzone-filename" style="color:var(--accent-2);margin:8px 0;font-weight:500;"></p>
         <p>or click to browse</p>
-        <div class="upload-formats">
+        <input type="file" id="pdfUpload" accept=".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.txt,.rtf"
+          style="display:none;">
+        <button class="btn-outline" style="margin-top:16px;"
+          onclick="document.getElementById('pdfUpload').click()">Browse Files</button>
+        <div class="upload-formats" style="margin-top:16px;">
           <span>PDF</span><span>DOC</span><span>DOCX</span><span>PPT</span><span>XLS</span><span>TXT</span><span>RTF</span>
         </div>
+        <button id="uploadBtn" class="btn-primary" style="margin-top:20px;width:100%;">Upload</button>
+        <a id="uploadedLink" href="#" target="_blank"
+          style="display:none;margin-top:14px;color:var(--accent-2);font-size:0.9rem;font-weight:500;"></a>
       </div>
       <div class="upload-info">
         <h2>Upload & Share Documents</h2>
@@ -353,5 +361,6 @@
 
   <script src="script.js"></script>
   <script type="module" src="firebase-auth.js"></script>
+  <script type="module" src="firebase-storage.js"></script>
 </body>
 </html>
