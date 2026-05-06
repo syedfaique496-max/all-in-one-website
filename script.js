@@ -3,41 +3,41 @@
 // Categories Data (extracted from Scribd)
 const categoriesData = {
   academic: [
-    { name:"Foreign Language Studies", icon:"🌍", color:"icon-purple", subs:["Chinese","ESL","French","German","Japanese","Spanish"] },
-    { name:"Science & Mathematics", icon:"🔬", color:"icon-green", subs:["Astronomy & Space Sciences","Biology","Chemistry","Earth Sciences","Mathematics","Physics"] },
-    { name:"Study Aids & Test Prep", icon:"📝", color:"icon-blue", subs:["Book Notes","College Entrance Exams","Professional Certifications","SAT & GRE","Study Guides"] },
-    { name:"Teaching Methods & Materials", icon:"🎓", color:"icon-pink", subs:["Early Childhood Education","Education Philosophy & Theory","Curriculum Development","Classroom Management"] },
+    { name: "Foreign Language Studies", icon: "🌍", color: "icon-purple", subs: ["Chinese", "ESL", "French", "German", "Japanese", "Spanish"] },
+    { name: "Science & Mathematics", icon: "🔬", color: "icon-green", subs: ["Astronomy & Space Sciences", "Biology", "Chemistry", "Earth Sciences", "Mathematics", "Physics"] },
+    { name: "Study Aids & Test Prep", icon: "📝", color: "icon-blue", subs: ["Book Notes", "College Entrance Exams", "Professional Certifications", "SAT & GRE", "Study Guides"] },
+    { name: "Teaching Methods & Materials", icon: "🎓", color: "icon-pink", subs: ["Early Childhood Education", "Education Philosophy & Theory", "Curriculum Development", "Classroom Management"] },
   ],
   professional: [
-    { name:"Business", icon:"💼", color:"icon-purple", subs:["Business Analytics","Human Resources","Management","Marketing","Strategy","Entrepreneurship"] },
-    { name:"Career & Growth", icon:"📈", color:"icon-green", subs:["Careers","Job Hunting","Resume Writing","Professional Development","Leadership","Networking"] },
-    { name:"Computers", icon:"💻", color:"icon-blue", subs:["Applications & Software","CAD-CAM","Databases","Networking","Programming","Web Development"] },
-    { name:"Finance & Money", icon:"🏦", color:"icon-pink", subs:["Accounting & Bookkeeping","Auditing","Banking","Investments","Personal Finance","Taxation"] },
-    { name:"Law", icon:"⚖️", color:"icon-purple", subs:["Business & Financial","Contracts & Agreements","Criminal Law","Intellectual Property","International Law"] },
-    { name:"Politics", icon:"🏛️", color:"icon-green", subs:["American Government","International Relations","Political Science","Public Policy","Elections"] },
-    { name:"Technology & Engineering", icon:"⚙️", color:"icon-blue", subs:["Automotive","Aviation & Aeronautics","Civil Engineering","Electronics","Mechanical","Software"] },
+    { name: "Business", icon: "💼", color: "icon-purple", subs: ["Business Analytics", "Human Resources", "Management", "Marketing", "Strategy", "Entrepreneurship"] },
+    { name: "Career & Growth", icon: "📈", color: "icon-green", subs: ["Careers", "Job Hunting", "Resume Writing", "Professional Development", "Leadership", "Networking"] },
+    { name: "Computers", icon: "💻", color: "icon-blue", subs: ["Applications & Software", "CAD-CAM", "Databases", "Networking", "Programming", "Web Development"] },
+    { name: "Finance & Money", icon: "🏦", color: "icon-pink", subs: ["Accounting & Bookkeeping", "Auditing", "Banking", "Investments", "Personal Finance", "Taxation"] },
+    { name: "Law", icon: "⚖️", color: "icon-purple", subs: ["Business & Financial", "Contracts & Agreements", "Criminal Law", "Intellectual Property", "International Law"] },
+    { name: "Politics", icon: "🏛️", color: "icon-green", subs: ["American Government", "International Relations", "Political Science", "Public Policy", "Elections"] },
+    { name: "Technology & Engineering", icon: "⚙️", color: "icon-blue", subs: ["Automotive", "Aviation & Aeronautics", "Civil Engineering", "Electronics", "Mechanical", "Software"] },
   ],
   culture: [
-    { name:"Art", icon:"🎨", color:"icon-pink", subs:["Antiques & Collectibles","Architecture","Design","Film & Photography","Music","Performing Arts"] },
-    { name:"Biography & Memoir", icon:"📖", color:"icon-purple", subs:["Artists and Musicians","Entertainers & Famous","Historical Figures","Leaders & Activists"] },
-    { name:"Comics & Graphic Novels", icon:"💬", color:"icon-green", subs:["Manga","Superhero","Independent","Humor","Fantasy","Sci-Fi"] },
-    { name:"History", icon:"🏺", color:"icon-blue", subs:["Ancient","Modern","Medieval","World Wars","Cultural History"] },
-    { name:"Philosophy", icon:"🧠", color:"icon-pink", subs:["Ethics","Logic","Metaphysics","Political Philosophy","Eastern Philosophy"] },
-    { name:"Literary Criticism", icon:"📚", color:"icon-purple", subs:["Poetry Analysis","Novel Studies","Drama","Comparative Literature"] },
-    { name:"Social Science", icon:"🌐", color:"icon-green", subs:["Anthropology","Archaeology","Economics","Psychology","Sociology"] },
-    { name:"True Crime", icon:"🔍", color:"icon-blue", subs:["Cold Cases","Forensics","Criminal Profiles","Investigations"] },
+    { name: "Art", icon: "🎨", color: "icon-pink", subs: ["Antiques & Collectibles", "Architecture", "Design", "Film & Photography", "Music", "Performing Arts"] },
+    { name: "Biography & Memoir", icon: "📖", color: "icon-purple", subs: ["Artists and Musicians", "Entertainers & Famous", "Historical Figures", "Leaders & Activists"] },
+    { name: "Comics & Graphic Novels", icon: "💬", color: "icon-green", subs: ["Manga", "Superhero", "Independent", "Humor", "Fantasy", "Sci-Fi"] },
+    { name: "History", icon: "🏺", color: "icon-blue", subs: ["Ancient", "Modern", "Medieval", "World Wars", "Cultural History"] },
+    { name: "Philosophy", icon: "🧠", color: "icon-pink", subs: ["Ethics", "Logic", "Metaphysics", "Political Philosophy", "Eastern Philosophy"] },
+    { name: "Literary Criticism", icon: "📚", color: "icon-purple", subs: ["Poetry Analysis", "Novel Studies", "Drama", "Comparative Literature"] },
+    { name: "Social Science", icon: "🌐", color: "icon-green", subs: ["Anthropology", "Archaeology", "Economics", "Psychology", "Sociology"] },
+    { name: "True Crime", icon: "🔍", color: "icon-blue", subs: ["Cold Cases", "Forensics", "Criminal Profiles", "Investigations"] },
   ],
   hobbies: [
-    { name:"Cooking, Food & Wine", icon:"🍳", color:"icon-pink", subs:["Beverages","Courses & Dishes","Baking","International Cuisine"] },
-    { name:"Games & Activities", icon:"🎮", color:"icon-purple", subs:["Card Games","Fantasy Sports","Board Games","Puzzles","Video Games"] },
-    { name:"Home & Garden", icon:"🏡", color:"icon-green", subs:["Crafts & Hobbies","Gardening","Interior Design","DIY Projects"] },
-    { name:"Sports & Recreation", icon:"⚽", color:"icon-blue", subs:["Baseball","Basketball","Football","Tennis","Fitness","Yoga"] },
+    { name: "Cooking, Food & Wine", icon: "🍳", color: "icon-pink", subs: ["Beverages", "Courses & Dishes", "Baking", "International Cuisine"] },
+    { name: "Games & Activities", icon: "🎮", color: "icon-purple", subs: ["Card Games", "Fantasy Sports", "Board Games", "Puzzles", "Video Games"] },
+    { name: "Home & Garden", icon: "🏡", color: "icon-green", subs: ["Crafts & Hobbies", "Gardening", "Interior Design", "DIY Projects"] },
+    { name: "Sports & Recreation", icon: "⚽", color: "icon-blue", subs: ["Baseball", "Basketball", "Football", "Tennis", "Fitness", "Yoga"] },
   ],
   personal: [
-    { name:"Lifestyle", icon:"✨", color:"icon-pink", subs:["Beauty & Grooming","Fashion","Travel","Relationships"] },
-    { name:"Religion & Spirituality", icon:"🙏", color:"icon-purple", subs:["Buddhism","Christianity","Islam","Hinduism","Meditation","Mindfulness"] },
-    { name:"Self-Improvement", icon:"🚀", color:"icon-green", subs:["Addiction Recovery","Mental Health","Productivity","Motivation","Habits"] },
-    { name:"Wellness", icon:"💚", color:"icon-blue", subs:["Body, Mind & Spirit","Diet & Nutrition","Exercise","Holistic Health","Sleep"] },
+    { name: "Lifestyle", icon: "✨", color: "icon-pink", subs: ["Beauty & Grooming", "Fashion", "Travel", "Relationships"] },
+    { name: "Religion & Spirituality", icon: "🙏", color: "icon-purple", subs: ["Buddhism", "Christianity", "Islam", "Hinduism", "Meditation", "Mindfulness"] },
+    { name: "Self-Improvement", icon: "🚀", color: "icon-green", subs: ["Addiction Recovery", "Mental Health", "Productivity", "Motivation", "Habits"] },
+    { name: "Wellness", icon: "💚", color: "icon-blue", subs: ["Body, Mind & Spirit", "Diet & Nutrition", "Exercise", "Holistic Health", "Sleep"] },
   ],
 };
 
@@ -80,7 +80,7 @@ function initNavbar() {
 function initCategories() {
   const grid = document.getElementById('categoriesGrid');
   const tabs = document.querySelectorAll('.tab-btn');
-  
+
   function renderCards(category) {
     const data = categoriesData[category] || categoriesData.academic;
     grid.innerHTML = '';
@@ -95,7 +95,7 @@ function initCategories() {
         <h3>${cat.name}</h3>
         <p>${cat.subs.length} subcategories</p>
         <div class="card-tags">
-          ${cat.subs.slice(0,3).map(s => `<span>${s}</span>`).join('')}
+          ${cat.subs.slice(0, 3).map(s => `<span>${s}</span>`).join('')}
           ${cat.subs.length > 3 ? `<span>+${cat.subs.length - 3} more</span>` : ''}
         </div>
       `;
@@ -191,7 +191,7 @@ function initParticles() {
   const canvas = document.getElementById('particleCanvas');
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
-  
+
   function resize() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
@@ -199,7 +199,7 @@ function initParticles() {
   resize();
   window.addEventListener('resize', resize);
 
-  const particles = Array.from({length: 50}, () => ({
+  const particles = Array.from({ length: 50 }, () => ({
     x: Math.random() * canvas.width,
     y: Math.random() * canvas.height,
     vx: (Math.random() - 0.5) * 0.5,
