@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ALL IN ONE — Your Gateway to World's Knowledge</title>
+  <meta name="description" content="Access millions of documents, find answers on any topic, and dive deeper into specialized knowledge. 300M+ documents and counting.">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .cat-modal-list { display:flex; flex-direction:column; gap:4px; max-height:350px; overflow-y:auto; }
+    .cat-modal-item { display:flex; justify-content:space-between; align-items:center; padding:14px 18px; border-radius:10px; background:var(--bg-glass); border:1px solid var(--border); transition:all 0.3s; color:var(--text-secondary); font-size:0.95rem; }
+    .cat-modal-item:hover { border-color:var(--accent-1); color:var(--text-primary); background:rgba(124,92,252,0.08); transform:translateX(4px); }
+    .arrow-right { color:var(--accent-1); font-weight:600; }
+  </style>
+</head>
+<body>
+
+  <!-- Particle Canvas -->
+  <canvas id="particleCanvas" style="position:fixed;inset:0;z-index:0;pointer-events:none;"></canvas>
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <a href="#" class="nav-logo">ALL IN ONE<span></span></a>
+    <div class="nav-links">
+      <a href="#categories">Categories</a>
+      <a href="#features">Features</a>
+      <a href="#upload">Upload</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#faq">FAQ</a>
+    </div>
+    <div class="nav-actions">
+      <div class="nav-search">
+        <span>🔍</span>
+        <input type="text" placeholder="Search documents..." id="globalSearch">
+      </div>
+      <button class="btn-outline" data-modal="loginModal">Log In</button>
+      <button class="btn-primary" data-modal="signupModal">Sign Up Free</button>
+    </div>
+    <button class="mobile-toggle" aria-label="Menu">☰</button>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-orb hero-orb-1"></div>
+    <div class="hero-orb hero-orb-2"></div>
+    <div class="hero-orb hero-orb-3"></div>
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="dot"></span>
+        300M+ documents available
+      </div>
+      <h1>Get to the <span class="gradient-text">Source.</span><br>Knowledge Without Limits.</h1>
+      <p>Specialized knowledge on any topic, answers you won't find anywhere else. Home to the world's documents — Academic, Professional, Culture & more.</p>
+      <div class="hero-cta">
+        <button class="btn-primary" data-modal="signupModal">Start Free Trial</button>
+        <button class="btn-outline" onclick="document.getElementById('categories').scrollIntoView({behavior:'smooth'})">Explore Categories</button>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <h3><span data-count="300" data-suffix="M+">0</span></h3>
+          <p>Documents</p>
+        </div>
+        <div class="hero-stat">
+          <h3><span data-count="28" data-suffix="+">0</span></h3>
+          <p>Categories</p>
+        </div>
+        <div class="hero-stat">
+          <h3><span data-count="150" data-suffix="M+">0</span></h3>
+          <p>Users Worldwide</p>
+        </div>
+        <div class="hero-stat">
+          <h3><span data-count="50" data-suffix="+">0</span></h3>
+          <p>Languages</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CATEGORIES -->
+  <section class="categories-section" id="categories">
+    <div class="section-header reveal">
+      <span class="tag">📂 Browse Collection</span>
+      <h2>Explore All Categories</h2>
+      <p>Access millions of human-sourced documents across every field — find exactly what you need.</p>
+    </div>
+    <div class="categories-tabs reveal">
+      <button class="tab-btn active" data-category="academic">📚 Academic</button>
+      <button class="tab-btn" data-category="professional">💼 Professional</button>
+      <button class="tab-btn" data-category="culture">🎭 Culture</button>
+      <button class="tab-btn" data-category="hobbies">🎮 Hobbies & Crafts</button>
+      <button class="tab-btn" data-category="personal">🌱 Personal Growth</button>
+    </div>
+    <div class="categories-grid" id="categoriesGrid"></div>
+  </section>
+
+  <!-- FEATURES -->
+  <section id="features">
+    <div class="section-header reveal">
+      <span class="tag">✨ Why Choose Us</span>
+      <h2>Everything You Need, All In One Place</h2>
+      <p>Powerful features designed to help you find, read, and share knowledge effortlessly.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card reveal">
+        <div class="feature-icon icon-purple">🔍</div>
+        <h3>Smart Search</h3>
+        <p>Find exactly what you need with AI-powered search across 300M+ documents. Filter by category, type, date, and relevance.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon icon-green">📱</div>
+        <h3>Read Anywhere</h3>
+        <p>Access your documents on any device — web, Android, or iOS. Your reading progress syncs seamlessly across all platforms.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon icon-pink">📤</div>
+        <h3>Easy Upload</h3>
+        <p>Share your knowledge with the world. Upload PDFs, docs, spreadsheets, presentations and more in seconds.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon icon-blue">🔒</div>
+        <h3>Secure & Private</h3>
+        <p>Your data is protected with enterprise-grade encryption. Full copyright protection and DMCA compliance built in.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon icon-purple">⚡</div>
+        <h3>Instant Access</h3>
+        <p>No waiting, no downloads needed. Read documents instantly in your browser with our lightning-fast reader.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon icon-green">🌐</div>
+        <h3>50+ Languages</h3>
+        <p>Documents available in over 50 languages. Breaking barriers to knowledge across the globe.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- UPLOAD -->
+  <section class="upload-section" id="upload">
+    <div class="section-header reveal">
+      <span class="tag">📤 Share Knowledge</span>
+      <h2>Share the Wealth of Knowledge</h2>
+    </div>
+    <div class="upload-container reveal">
+      <div class="upload-dropzone" id="dropzone">
+        <div class="upload-icon">📄</div>
+        <h3>Drag & Drop your files here</h3>
+        <p>or click to browse</p>
+        <div class="upload-formats">
+          <span>PDF</span><span>DOC</span><span>DOCX</span><span>PPT</span><span>XLS</span><span>TXT</span><span>RTF</span>
+        </div>
+      </div>
+      <div class="upload-info">
+        <h2>Upload & Share Documents</h2>
+        <p>Share your documents with millions of readers worldwide. Supported file types include PDF, TXT, DOC, PPT, XLS, DOCX, and more.</p>
+        <p>You must own the copyright to any document you share. Read more about this in our Copyright FAQs.</p>
+        <button class="btn-primary" data-modal="signupModal">Start Uploading</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section id="pricing">
+    <div class="section-header reveal">
+      <span class="tag">💎 Plans & Pricing</span>
+      <h2>Start Your Free Trial Today</h2>
+      <p>Choose the plan that works best for you. Cancel anytime.</p>
+    </div>
+    <div class="pricing-cards reveal">
+      <div class="pricing-card">
+        <h3>Free</h3>
+        <p style="color:var(--text-muted);">Ad-supported access</p>
+        <div class="price">$0<span>/mo</span></div>
+        <ul class="pricing-features">
+          <li>Limited document access</li>
+          <li>Ad-supported reading</li>
+          <li>Basic search</li>
+          <li>Upload up to 5 documents</li>
+        </ul>
+        <button class="btn-outline" style="width:100%">Get Started</button>
+      </div>
+      <div class="pricing-card featured">
+        <h3>Premium</h3>
+        <p style="color:var(--text-muted);">Most popular plan</p>
+        <div class="price">$11.99<span>/mo</span></div>
+        <ul class="pricing-features">
+          <li>Unlimited document access</li>
+          <li>Ad-free reading experience</li>
+          <li>Advanced AI search</li>
+          <li>Offline downloads</li>
+          <li>Priority support</li>
+          <li>Upload unlimited documents</li>
+        </ul>
+        <button class="btn-primary" style="width:100%" data-modal="signupModal">Start Free Trial</button>
+      </div>
+      <div class="pricing-card">
+        <h3>Enterprise</h3>
+        <p style="color:var(--text-muted);">For teams & organizations</p>
+        <div class="price">Custom</div>
+        <ul class="pricing-features">
+          <li>Everything in Premium</li>
+          <li>Team management dashboard</li>
+          <li>API access</li>
+          <li>Custom integrations</li>
+          <li>Dedicated account manager</li>
+        </ul>
+        <button class="btn-outline" style="width:100%">Contact Sales</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" style="background:var(--bg-secondary);">
+    <div class="section-header reveal">
+      <span class="tag">❓ FAQ</span>
+      <h2>Frequently Asked Questions</h2>
+    </div>
+    <div class="faq-list reveal">
+      <div class="faq-item">
+        <div class="faq-question">How do I cancel my subscription? <span class="arrow">▼</span></div>
+        <div class="faq-answer">You can cancel your subscription anytime from your account settings. Go to Settings → Subscription → Cancel Plan. Your access will continue until the end of your billing period.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">What file types can I upload? <span class="arrow">▼</span></div>
+        <div class="faq-answer">We support PDF, TXT, DOC, DOCX, PPT, PPTX, XLS, XLSX, RTF, and many more formats. Simply drag and drop your file or click to browse.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">Is there a free trial available? <span class="arrow">▼</span></div>
+        <div class="faq-answer">Yes! We offer a free trial for our Premium plan. You can cancel anytime during the trial and you won't be charged.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">Can I access documents offline? <span class="arrow">▼</span></div>
+        <div class="faq-answer">Premium subscribers can download documents for offline reading on our mobile apps for Android and iOS.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">How is copyright protected? <span class="arrow">▼</span></div>
+        <div class="faq-answer">We take copyright seriously. All uploads must comply with our Copyright Policy. You must own the copyright to any document you share. We have a robust DMCA process to handle infringement reports.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">What devices are supported? <span class="arrow">▼</span></div>
+        <div class="faq-answer">ALL IN ONE is available on the web, Android, and iOS. Your reading progress and library sync seamlessly across all your devices.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#" class="nav-logo" style="font-size:1.8rem;">ALL IN ONE</a>
+        <p>Get to the source. Specialized knowledge on any topic, and answers you won't find anywhere else. Home to the world's documents, 300M+ and counting.</p>
+        <div class="footer-social">
+          <a href="#" aria-label="Instagram">📷</a>
+          <a href="#" aria-label="Facebook">📘</a>
+          <a href="#" aria-label="Pinterest">📌</a>
+          <a href="#" aria-label="Twitter">🐦</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>About</h4>
+        <a href="#">About Us</a>
+        <a href="#">SlideShare</a>
+        <a href="#">Join Our Team</a>
+        <a href="#">Contact Us</a>
+        <a href="#">Blog</a>
+      </div>
+      <div class="footer-col">
+        <h4>Support</h4>
+        <a href="#">Help / FAQ</a>
+        <a href="#">Accessibility</a>
+        <a href="#">Purchase Help</a>
+        <a href="#">AdChoices</a>
+        <a href="#">Report Issue</a>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <a href="#">Terms of Use</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Copyright</a>
+        <a href="#">Cookie Policy</a>
+        <a href="#">Privacy Choices</a>
+      </div>
+      <div class="footer-col">
+        <h4>Get the App</h4>
+        <a href="#">📱 iOS App Store</a>
+        <a href="#">🤖 Google Play</a>
+        <a href="#">💻 Desktop App</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 ALL IN ONE. All rights reserved.</span>
+      <span>Made with ❤️ for knowledge seekers worldwide</span>
+    </div>
+  </footer>
+
+  <!-- LOGIN MODAL -->
+  <div class="modal-overlay" id="loginModal">
+    <div class="modal">
+      <button class="modal-close">✕</button>
+      <h2>Welcome Back</h2>
+      <p>Log in to access your documents and library.</p>
+      <input type="email" class="modal-input" placeholder="Email address">
+      <input type="password" class="modal-input" placeholder="Password">
+      <button class="btn-primary">Log In</button>
+      <div class="modal-footer">Don't have an account? <a href="#" data-modal="signupModal">Sign up free</a></div>
+    </div>
+  </div>
+
+  <!-- SIGNUP MODAL -->
+  <div class="modal-overlay" id="signupModal">
+    <div class="modal">
+      <button class="modal-close">✕</button>
+      <h2>Join ALL IN ONE</h2>
+      <p>Start your free trial and access 300M+ documents.</p>
+      <input type="text" class="modal-input" placeholder="Full name">
+      <input type="email" class="modal-input" placeholder="Email address">
+      <input type="password" class="modal-input" placeholder="Create password">
+      <button class="btn-primary">Create Account</button>
+      <div class="modal-footer">Already have an account? <a href="#" data-modal="loginModal">Log in</a></div>
+    </div>
+  </div>
+
+  <!-- CATEGORY MODAL -->
+  <div class="modal-overlay" id="categoryModal">
+    <div class="modal">
+      <button class="modal-close">✕</button>
+      <h2></h2>
+      <p></p>
+      <div class="cat-modal-list"></div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
