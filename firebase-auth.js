@@ -95,17 +95,28 @@ window.signupUser = function () {
   const btn      = document.getElementById('signup-btn');
 
   if (!name || !email || !password) { showToast('Please fill in all fields.', 'error'); return; }
-  if (password.length < 6) { showToast('Password must be at least 6 characters.', 'error'); return; }
   btn.textContent = 'Creating account...'; btn.disabled = true;
 
   createUserWithEmailAndPassword(auth, email, password)
     .then(cred => {
       return cred.user.updateProfile({ displayName: name }).then(() => {
-        showToast(`Welcome, ${name}! 🎉`);
+        showToast(`Account created successfully! Welcome, ${name}! 🎉`);
         closeAllModals();
       });
     })
-    .catch(err => showToast(friendlyError(err.code), 'error'))
+    .catch(error => {
+      if (error.code === 'auth/email-already-in-use') {
+        showToast('Account exists. Redirecting to login...', 'error');
+        setTimeout(() => {
+          closeAllModals();
+          document.getElementById('loginModal').classList.add('active');
+        }, 1500);
+      } else if (error.code === 'auth/weak-password') {
+        showToast('Password should be at least 6 characters.', 'error');
+      } else {
+        showToast(error.message, 'error');
+      }
+    })
     .finally(() => { btn.textContent = 'Create Account'; btn.disabled = false; });
 };
 
