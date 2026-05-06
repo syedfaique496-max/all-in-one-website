@@ -63,8 +63,10 @@ async function sendMessage() {
     console.log("API RESPONSE:", data); // 👈 DEBUG
 
     // ✅ Validate response before accessing choices
-    if (!data.choices || !data.choices.length) {
-      throw new Error(data.error?.message || "API returned no choices");
+    if (!data || !data.choices || !data.choices.length) {
+      document.getElementById(typingId)?.remove();
+      chatBox.innerHTML += `<p style="color:red;">Error: ${data.error?.message || "No response from API"}</p>`;
+      return;
     }
 
     const reply = data.choices[0].message.content;
