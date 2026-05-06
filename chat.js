@@ -30,7 +30,7 @@ async function sendMessage() {
         "X-Title": "ALL IN ONE"
       },
       body: JSON.stringify({
-        model: model,
+        model: "openai/gpt-4o-mini",
         messages: [{ role: "user", content: message }]
       })
     });
