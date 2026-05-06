@@ -100,6 +100,8 @@ window.forgotPassword = function () {
     .catch(error => {
       if (error.code === 'auth/user-not-found') {
         showToast('No account found with that email.', 'error');
+      } else if (error.code === 'auth/invalid-email') {
+        showToast('Invalid email address.', 'error');
       } else {
         showToast(error.message, 'error');
       }
