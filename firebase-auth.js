@@ -1,7 +1,6 @@
 // ===== Firebase Auth - ALL IN ONE =====
-// TODO: Replace with your own Firebase project config from:
-// https://console.firebase.google.com → Project Settings → Your apps → SDK setup
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-analytics.js";
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -13,20 +12,22 @@ import {
   updateProfile
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
-// ── Your Firebase config ──────────────────────────────────────────────────────
+// ── Firebase config ───────────────────────────────────────────────────────────
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT_ID.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyAm-2XDg3fuXXhrsIv0XI9W1j8Ebior0n4",
+  authDomain: "all-in-one-website-25a28.firebaseapp.com",
+  projectId: "all-in-one-website-25a28",
+  storageBucket: "all-in-one-website-25a28.firebasestorage.app",
+  messagingSenderId: "175636009900",
+  appId: "1:175636009900:web:609f7897c73c817286e009",
+  measurementId: "G-L04Q513KJY"
 };
 // ─────────────────────────────────────────────────────────────────────────────
 
-const app      = initializeApp(firebaseConfig);
-const auth     = getAuth(app);
-const provider = new GoogleAuthProvider();
+const app       = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+const auth      = getAuth(app);
+const provider  = new GoogleAuthProvider();
 
 // ===== UI helpers =============================================================
 
