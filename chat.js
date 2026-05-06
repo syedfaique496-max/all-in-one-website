@@ -60,7 +60,7 @@ async function sendMessage() {
     });
 
     const data = await res.json();
-    console.log("FULL RESPONSE:", data); // ✅ DEBUG
+    console.log("API RESPONSE:", data); // 👈 DEBUG
 
     // ✅ Validate response before accessing choices
     if (!data.choices || !data.choices.length) {
